@@ -1,0 +1,37 @@
+<!-- toy_project/app/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jellyfish Detector</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Jellyfish Detector</h1>
+            <p>Upload an image to detect jellyfish species</p>
+        </div>
+
+        <div class="upload-section">
+            <input type="file" id="imageInput" accept=".jpg,.jpeg,.png">
+            <button onclick="detectJellyfish()">Detect Jellyfish</button>
+        </div>
+
+        <div class="loading" id="loading">
+            <p>Processing image...</p>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <h2>Detection Results</h2>
+            <div class="detection-list" id="detectionList"></div>
+            <div class="image-container">
+                <img id="resultImage" src="" alt="Detection Result">
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

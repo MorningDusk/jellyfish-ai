@@ -1,0 +1,24 @@
+MODEL:
+  num_classes: 80
+  anchors: [[10, 13], [16, 30], [33, 23]]
+  stride: [8, 16, 32]
+
+TRAIN:
+  batch_size: 32
+  epochs: 10
+  lr: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+
+VALIDATION:
+  batch_size: 32
+
+hyp:
+  lr: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  giou: 0.05
+  cls: 0.5
+  obj: 1.0
+  anchor_t: 4.0
+  gr: 1.0

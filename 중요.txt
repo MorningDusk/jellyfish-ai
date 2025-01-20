@@ -1,0 +1,25 @@
+SKT_Fly_AI/
+├── toy_project/
+│   ├── train.py
+│   ├── data.py
+│   ├── model.py
+│   ├── utils.py
+│   ├── config.py
+│   └── jellyfish/
+│       └── Train_Test_Valid/
+│           ├── train/
+│           │   ├── class1/
+│           │   ├── class2/
+│           │   └── ...
+│           ├── valid/
+│           │   ├── class1/
+│           │   ├── class2/
+│           │   └── ...
+│           └── test/
+│               ├── class1/
+│               ├── class2/
+│               └── ...
+└── ...
+
+barrel_jellyfish, blue_jellyfish, compass_jellyfish, lions_mane_jellyfish, mauve_stinger_jellyfish, moon_jellyfish,
+Train_Test_Valid/train, Train_Test_Valid/test, Train_Test_Valid/valid
