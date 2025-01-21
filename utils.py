@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-import matplotlib.pyplot as plt
 import math
 import itertools
 import os
@@ -216,29 +215,42 @@ def bbox_iou(box1, box2, x1y1x2y2=False, GIoU=False, DIoU=False, CIoU=False, eps
     else:
         return iou  # IoU
 
-def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', cmap=plt.cm.Blues):
+import cv2
+import numpy as np
+
+def plot_confusion_matrix(cm, classes, normalize=False, title='Confusion matrix', cmap=None):
     if normalize:
         cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
     
-    plt.figure(figsize=(10, 10))
-    plt.imshow(cm, interpolation='nearest', cmap=cmap)
-    plt.title(title)
-    plt.colorbar()
+    # Create a blank image
+    img = np.zeros((cm.shape[0]*50 + 100, cm.shape[1]*50 + 100, 3), dtype=np.uint8)
+    img.fill(255)
     
-    tick_marks = np.arange(len(classes))
-    plt.xticks(tick_marks, classes, rotation=45)
-    plt.yticks(tick_marks, classes)
+    # Draw grid
+    for i in range(cm.shape[0] + 1):
+        cv2.line(img, (0, i*50 + 50), (img.shape[1], i*50 + 50), (200, 200, 200), 1)
+    for j in range(cm.shape[1] + 1):
+        cv2.line(img, (j*50 + 50, 0), (j*50 + 50, img.shape[0]), (200, 200, 200), 1)
     
-    fmt = '.2f' if normalize else 'd'
-    thresh = cm.max() / 2.
-    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, format(cm[i, j], fmt),
-                horizontalalignment="center",
-                color="white" if cm[i, j] > thresh else "black")
+    # Draw values
+    for i in range(cm.shape[0]):
+        for j in range(cm.shape[1]):
+            value = cm[i, j]
+            if normalize:
+                text = f"{value:.2f}"
+            else:
+                text = f"{value}"
+            cv2.putText(img, text, (j*50 + 60, i*50 + 80), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
     
-    plt.tight_layout()
-    plt.ylabel('True label')
-    plt.xlabel('Predicted label')
+    # Draw class names
+    for i, class_name in enumerate(classes):
+        cv2.putText(img, class_name, (10, i*50 + 80), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+        cv2.putText(img, class_name, (i*50 + 60, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+    
+    # Draw title
+    cv2.putText(img, title, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
+    
+    return img
 
 def compute_metrics(predictions, targets):
     """
